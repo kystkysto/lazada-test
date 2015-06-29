@@ -7,11 +7,13 @@ RUN apt-get update
 RUN apt-get install -y nodejs  
 RUN apt-get install -y nodejs-legacy
 RUN apt-get install -y npm
-RUN apt-get install -y git
-RUN npm install -y bower -g
 
 RUN mkdir /code
+ADD ./ /code
 WORKDIR /code
 
 EXPOSE 8080
 EXPOSE 3000
+
+RUN npm install
+CMD npm start
