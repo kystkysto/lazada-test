@@ -9,42 +9,31 @@ class InfoTableStore {
 
     constructor() {
     
-        this.itmes = [];
+        this.items = [];
 
         this.errorMessage = null;
 
         this.bindListeners({
-            handleParsePages: ParserActions.GET_PAGES,
-            handleLoadingResults: ParserActions.LOADING_RESULTS,
-            handleReceivedResults: ParserActions.RECEIVED_RESULTS,
-            handleResultsFailed: ParserActions.RESULTS_FAILED,
+            _handleParsePages: ParserActions.PARSE_PAGES,
+            _handleparsePagesSuccess: ParserActions.PARSE_PAGES_SUCCESS,
+            _handleResultsFailed: ParserActions.PARSE_PAGES_FAILED,
         });
-
-        this.registerAsync(ParserSource);
     }
 
-    handleLoadingResults() {
-        this.itmes = [];
-    }
-
-    handleReceivedResults(item) {
-        this.itmes.push(item);
-    }
-
-    handleResultsFailed(error) {
-        console.log(error);
-    }
-
-    handleParsePages(inputs) {
+    _handleParsePages() {
         
-        inputs.forEach((input) => {
-
-            let self = this;
-            self.request = input.value;
-            
-            ParserSource.getParsed().remote(this).then((data) => self.items.push(data));
-        });
+        this.items = [];
     }
+
+    _handleparsePagesSuccess(product) {
+
+        this.items.push(product);
+    }
+
+    _handleResultsFailed() {
+        console.log('faild');
+    }
+
 }
 
 export default alt.createStore(InfoTableStore, 'InfoTableStore');

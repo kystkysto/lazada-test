@@ -17,25 +17,32 @@ class UrlInputsStore {
         this.errorMessage = null;
 
         this.bindListeners({
-            handleSetUrl: ParserActions.SET_URL,
+            _handleSetUrl: ParserActions.SET_URL,
         });
     }
 
-    handleSetUrl(input) {
-        
-        const regExp = /^(https?:\/\/www\.lazada\.)((co\.id|com\.my|com\.ph|sg|co.th|vn)\/)(.*)(\.html)$/;
+    _handleSetUrl(input) {
 
-        let index = findIndex(this.inputs, { id: input.id }),
-            valid = true;
+        let index = findIndex(this.inputs, { id: input.id });
 
         this.inputs[index] = input;
 
-        this.inputs.forEach((elem) => {
-            
-            let inputValid = false;
+        this._isValid(input.value)
+    }
 
-            if(elem.value.trim() !== '') {
-                inputValid = elem.valid = regExp.test(elem.value);
+    _isValid(value) {
+
+        const regExp = /^(https?:\/\/www\.lazada\.)((co\.id|com\.my|com\.ph|sg|co.th|vn)\/)(.*)(\.html)$/;
+
+        let valid = true;
+
+        this.inputs.forEach( (elem) => {
+            
+            let inputValid = false,
+                url = elem.value.trim();
+
+            if(url !== '') {
+                inputValid = elem.valid = regExp.test(url);
             }
 
             valid = !!(valid && inputValid);

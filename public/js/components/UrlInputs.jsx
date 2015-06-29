@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import {pluck} from 'underscore';
-
 import ParserActions from '../actions/ParserActions';
 
 class UrlInputs extends Component {
@@ -16,7 +14,7 @@ class UrlInputs extends Component {
         event.preventDefault();
         
         if(this.props.valid) {
-            ParserActions.getPages(this.props.inputs);
+            ParserActions.parsePages(this.props.inputs);
         }
 
     }
@@ -64,7 +62,7 @@ class UrlInput extends Component {
 
         return (
             <div>
-                <label for={'url_' + this.props.id}>{this.props.id} url</label>
+                <label for={'url_' + this.props.id}></label>
                 <input type="text"
                     value={value}
                     id={'url_' + this.props.id}
