@@ -18,18 +18,18 @@ class InfoTable extends Component {
 
         let table = this._convert(this.props.items);
 
-        if(table.thead.length) {
+        if(table.thead.names.length) {
 
             return (
                 <div>
                     <table className={'bordered'}>
                         <HeadTable items={table.thead} />
 
-                        <tr><td colSpan={table.thead.length+1}><h5>Specifications</h5></td></tr>
+                        <tr><td colSpan={table.thead.names.length+1}><h5>Specifications</h5></td></tr>
 
                         <SpecificationsTable items={table.specifications} />
 
-                        <tr><td colSpan={table.thead.length+1}><h5>Features</h5></td></tr>
+                        <tr><td colSpan={table.thead.names.length+1}><h5>Features</h5></td></tr>
                         
                         <FeaturesTable items={table.features} />
                     </table>
@@ -69,7 +69,11 @@ class InfoTable extends Component {
 
     _convert(items) {
 
-        let thead = [],
+        let thead = {
+            names: [],
+            images: [],
+            prices: [],
+        },
             specifications = [],
             features = [];
 
@@ -77,11 +81,9 @@ class InfoTable extends Component {
 
             items.forEach((elem) => {
 
-                thead[elem.inputId-1] = {
-                    name: elem.product.name,
-                    img: elem.product.img,
-                    price: elem.product.price
-                };
+                thead['names'][elem.inputId-1] = elem.product.name;
+                thead['images'][elem.inputId-1] = elem.product.img;
+                thead['prices'][elem.inputId-1] = elem.product.price;
 
                 elem.product.features.forEach((feature, index) => {
                     
@@ -133,13 +135,31 @@ class HeadTable extends Component {
         return (
             <tbody>
                 <tr>
-                    <th></th>
-                    { this.props.items.map((elem) => {
+                    <th><h5>Name</h5></th>
+                    { this.props.items.names.map((elem) => {
                         return (
                             <th>
-                                <h5>{elem.name}</h5>
-                                <img src={elem.img} />
-                                <h6>{elem.price}</h6>
+                                <h5>{elem}</h5>
+                            </th>
+                        );
+                    })}
+                </tr>
+                <tr>
+                    <th></th>
+                    { this.props.items.images.map((elem) => {
+                        return (
+                            <th >
+                                <img src={elem} />
+                            </th>
+                        );
+                    })}
+                </tr>
+                <tr>
+                    <th><h5>Price</h5></th>
+                    { this.props.items.prices.map((elem) => {
+                        return (
+                            <th className={'right-align'}>
+                                <h5>{elem}</h5>
                             </th>
                         );
                     })}
@@ -171,7 +191,7 @@ class SpecificationsTable extends Component {
                         });
 
                         return (
-                            <td>
+                            <td >
                                 <ul >{list}</ul>
                             </td>
                         );
