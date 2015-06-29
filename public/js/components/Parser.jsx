@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import AltContainer from 'alt/AltContainer';
 
+import Header from './Header';
+
 import UrlInputs from './UrlInputs';
 import InfoTable from './InfoTable';
 
@@ -20,13 +22,16 @@ class Parser extends Component {
 
         return (
             <div>
-                <AltContainer store={UrlInputsStore}>
-                    <UrlInputs />
-                </AltContainer>
-                <h1>Products table</h1>
-                <AltContainer store={InfoTableStore}>
-                    <InfoTable />
-                </AltContainer>
+                <Header />
+                <div className={'container'}>
+                    <AltContainer store={UrlInputsStore}>
+                        <UrlInputs />
+                    </AltContainer>
+                    <h4>Products table</h4>
+                    <AltContainer store={InfoTableStore}>
+                        <InfoTable />
+                    </AltContainer>
+                </div>
             </div>
         );
     }

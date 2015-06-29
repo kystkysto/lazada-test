@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import AltContainer from 'alt/AltContainer';
 
-import {isArray, findIndex} from 'underscore';
+import {isArray, findIndex, map} from 'underscore';
 
 import ParserActions from '../actions/ParserActions';
 import InfoTableStore from '../stores/InfoTableStore';
@@ -22,23 +22,47 @@ class InfoTable extends Component {
 
             return (
                 <div>
-                    <table>
+                    <table className={'bordered'}>
                         <HeadTable items={table.thead} />
 
-                        <tr colspan={table.thead.length+1}><td>Specifications</td></tr>
+                        <tr><td colSpan={table.thead.length+1}><h5>Specifications</h5></td></tr>
 
                         <SpecificationsTable items={table.specifications} />
 
-                        <tr colspan={table.thead.length+1}><td>Features</td></tr>
+                        <tr><td colSpan={table.thead.length+1}><h5>Features</h5></td></tr>
                         
                         <FeaturesTable items={table.features} />
                     </table>
                 </div>
             );
         } else {
+
+            if(this.props.loading) {
+                return (
+                    <div className={'valign-wrapper'}>
+                        <div className={'preloader-wrapper big active'}>
+                            <div className={'spinner-layer spinner-blue-only'}>
+
+                                <div className={'circle-clipper left'}>
+                                    <div className={'circle'}></div>
+                                </div>
+
+                                <div className={'gap-patch'}>
+                                    <div className={'circle'}></div>
+                                </div>
+                                
+                                <div className={'circle-clipper right'}>
+                                    <div className={'circle'}></div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
             return (
-                
-                <h4>Please enter url to start comparision!</h4>
+
+                <h5>Please enter urls to start comparision!</h5>
             );
         }
     }
@@ -53,7 +77,7 @@ class InfoTable extends Component {
 
             items.forEach((elem) => {
 
-                thead[elem.inputId] = {
+                thead[elem.inputId-1] = {
                     name: elem.product.name,
                     img: elem.product.img,
                     price: elem.product.price
@@ -64,6 +88,9 @@ class InfoTable extends Component {
                     let id = findIndex(features, {name: feature.name}),
                         tmp = [];
 
+                    for(let i in items) {
+                        tmp.push('');
+                    }
 
                     tmp[elem.inputId-1] = feature.value;
 
@@ -79,7 +106,7 @@ class InfoTable extends Component {
                     }
                 });
 
-                specifications[elem.inputId] = elem.product.specifications;
+                specifications[elem.inputId-1] = elem.product.specifications;
             });
         }
 
@@ -102,6 +129,7 @@ class HeadTable extends Component {
 
     render() {
 
+
         return (
             <tbody>
                 <tr>
@@ -109,9 +137,9 @@ class HeadTable extends Component {
                     { this.props.items.map((elem) => {
                         return (
                             <th>
-                                <h2>{elem.name}</h2>
+                                <h5>{elem.name}</h5>
                                 <img src={elem.img} />
-                                <h3>{elem.price}</h3>
+                                <h6>{elem.price}</h6>
                             </th>
                         );
                     })}
@@ -138,13 +166,13 @@ class SpecificationsTable extends Component {
                         
                         let list = elem.map((spec) => {
                             return (
-                                <li>{spec}</li>
+                                <li >{spec}</li>
                             );
                         });
 
                         return (
                             <td>
-                                <ul>{list}</ul>
+                                <ul >{list}</ul>
                             </td>
                         );
                     })}
@@ -169,9 +197,10 @@ class FeaturesTable extends Component {
                     return (
                         <tr>
                             <td>{elem.name}</td>
-                            {elem.features.map((feature) => {
+                            {
+                                elem.features.map((feature) => {
                                 return (
-                                    <td>{feature}</td>
+                                    <td >{feature}</td>
                                 );
                             })}
                         </tr>

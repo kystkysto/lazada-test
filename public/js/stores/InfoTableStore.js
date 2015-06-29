@@ -23,9 +23,13 @@ class InfoTableStore {
     _handleParsePages() {
         
         this.items = [];
+
+        this.loading = true;
     }
 
     _handleparsePagesSuccess(product) {
+
+        this.loading = false;
 
         this.items.push(product);
     }
