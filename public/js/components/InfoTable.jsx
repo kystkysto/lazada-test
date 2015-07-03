@@ -20,18 +20,25 @@ class InfoTable extends Component {
 
         if(table.thead.names.length) {
 
+            const style = 
+            {
+                firtCol: {
+                    'min-width' : '300px'
+                }
+            };
+
             return (
                 <div>
                     <table className={'bordered'}>
-                        <HeadTable items={table.thead} />
+                        <HeadTable items={table.thead} style={style}/>
 
                         <tr><td colSpan={table.thead.names.length+1}><h5>Specifications</h5></td></tr>
 
-                        <SpecificationsTable items={table.specifications} />
+                        <SpecificationsTable items={table.specifications} style={style}/>
 
                         <tr><td colSpan={table.thead.names.length+1}><h5>Features</h5></td></tr>
                         
-                        <FeaturesTable items={table.features} />
+                        <FeaturesTable items={table.features} style={style}/>
                     </table>
                 </div>
             );
@@ -135,7 +142,7 @@ class HeadTable extends Component {
         return (
             <tbody>
                 <tr>
-                    <th><h5>Name</h5></th>
+                    <th style={this.props.style.firtCol}><h5>Name</h5></th>
                     { this.props.items.names.map((elem) => {
                         return (
                             <th>
@@ -145,20 +152,20 @@ class HeadTable extends Component {
                     })}
                 </tr>
                 <tr>
-                    <th></th>
+                    <th style={this.props.style.firtCol}></th>
                     { this.props.items.images.map((elem) => {
                         return (
-                            <th >
+                            <th>
                                 <img src={elem} />
                             </th>
                         );
                     })}
                 </tr>
                 <tr>
-                    <th><h5>Price</h5></th>
+                    <th style={this.props.style.firtCol}><h5>Price</h5></th>
                     { this.props.items.prices.map((elem) => {
                         return (
-                            <th className={'right-align'}>
+                            <th>
                                 <h5>{elem}</h5>
                             </th>
                         );
@@ -181,7 +188,7 @@ class SpecificationsTable extends Component {
         return (
             <tbody>
                 <tr>
-                    <td></td>
+                    <td style={this.props.style.firtCol}></td>
                     { this.props.items.map((elem) =>{
                         
                         let list = elem.map((spec) => {
@@ -216,7 +223,7 @@ class FeaturesTable extends Component {
                 { this.props.items.map((elem) => {
                     return (
                         <tr>
-                            <td>{elem.name}</td>
+                            <td style={this.props.style.firtCol}>{elem.name}</td>
                             {
                                 elem.features.map((feature) => {
                                 return (

@@ -64,8 +64,6 @@ app.get('/parser', function (req, res) {
 					});
 				});
 
-			console.log('success ' + JSON.stringify(product, null, '\t'));
-
 			res.send(product);
 
 		} else {
